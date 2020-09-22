@@ -1,0 +1,47 @@
+version: "3.7"
+services: 
+  postgres:
+    container_name: postgres
+    ports: 
+      - 5432:5432
+    image: postgres:10.4
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: node_api
+    restart: always
+    volumes:
+      - ./src/dbinit.sql:/docker-entrypoint-initdb.d/init.sql
+    networks: 
+      - api_networks
+  ts-api:
+    container_name: ts-api
+    ports: 
+      - 5500:5500
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment: 
+      NODE_ENV: development
+      PORT: 5500
+      DB_DRIVER: postgres
+      DB_HOST: postgres
+      DB_NAME: node_api
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: jbw842jbd7djwoq83b4
+      FACEBOOK_CLIENT_ID: 378624726469022
+      FACEBOOK_CLIENT_SECRET: db1e6d5f780d2eb8dd1eba287c2bbef8
+      FACEBOOK_CALLBACK_URL: http://localhost:5500/auth/facebook/callback
+    depends_on: 
+      - postgres
+    networks: 
+      - api_networks
+              
+networks: 
+  api_networks:
+    name: api_networks
+
+
+
+    
