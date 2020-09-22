@@ -76,21 +76,6 @@ class AuthController {
         return res.status(200).json(data)
     } 
 
-    public requestResetPassword = async(req: Request, res: Response) =>{
-        try {
-            let { email_address } = req.body
-            let user = await model.users.findOne({where: {email_address}})
-
-            if(!user) {
-                return res.status(401).json({error: "Email not registered"})
-            }
-
-            let token = jwt.sign({id: user.id, email_address: user.email_address}, process.env.JWT_SECRET )
-            return res.status(200).json({token})
-        } catch(err) {
-            return res.status(500).json({error: err.message})
-        }
-    }
 }
 
 export default new AuthController()

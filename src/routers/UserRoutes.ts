@@ -16,7 +16,6 @@ class UserRoutes extends BaseRoutes {
         this.route.get("/:id",jwtAuth,UserController.show)
         this.route.delete("/:id",jwtAuth,UserController.destroy)
         this.route.put("/:id",jwtAuth,UserController.update)
-        this.route.put("/secret/:id",jwtAuth,UserController.updatePassword)
     }
 }
 
